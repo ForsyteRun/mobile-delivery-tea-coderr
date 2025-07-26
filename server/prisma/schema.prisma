@@ -16,10 +16,10 @@ datasource db {
 model User {
   id String @id @default(uuid())
 
-  mail     String @unique
+  email    String @unique
   password String
 
-  name String
+  name String @default("user")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
