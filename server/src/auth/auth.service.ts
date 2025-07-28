@@ -1,12 +1,11 @@
 import { faker } from '@faker-js/faker';
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from "@nestjs/jwt";
+import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { JsonWebTokenError, JwtService, TokenExpiredError } from "@nestjs/jwt";
 import { User } from '@prisma/client';
 import { hash, verify } from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthRequest } from './dto/auth.dto';
 import { RefreshTokensRequest } from './dto/refresh-tokens.dto';
-
 @Injectable()
 export class AuthService {
   constructor(private readonly prismaService: PrismaService,
@@ -80,23 +79,36 @@ export class AuthService {
   }
 
   async refreshTokens(refreshToken: RefreshTokensRequest) {
-    const payload = await this.jwtService.verifyAsync(refreshToken.token);
+    try {
+      const payload = await this.jwtService.verifyAsync(refreshToken.token);
 
-    if (!payload) {
-      throw new UnauthorizedException('User does not authorized');
-    }
+      if (!payload) {
+        throw new UnauthorizedException('User does not authorized');
+      }
 
-    const user = await this.prismaService.user.findUnique({ where: { id: payload.id } });
+      const user = await this.prismaService.user.findUnique({ where: { id: payload.id } });
 
-    if (!user) {
-      throw new NotFoundException('User does not exist');
-    }
+      if (!user) {
+        throw new NotFoundException('User does not exist');
+      }
 
-    const tokens = await this.generateTokens(user.id);
+      const tokens = await this.generateTokens(user.id);
 
-    return {
-      user: this.getUserFields(user),
-      ...tokens
+      return {
+        user: this.getUserFields(user),
+        ...tokens
+      }
+
+    } catch (error) {
+      if (error instanceof TokenExpiredError) {
+        throw new UnauthorizedException('Refresh token expired');
+      }
+
+      if (error instanceof JsonWebTokenError) {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+
+      throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
