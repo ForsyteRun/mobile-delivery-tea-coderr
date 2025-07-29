@@ -15,7 +15,13 @@ export class ProductService {
   async getAll(searchTerm?: string) {
     if (searchTerm) return this.search(searchTerm);
 
-    return this.prisma.product.findMany({ select: returnProductObject, orderBy: { createdAt: 'desc' } });
+    return this.prisma.product.findMany({
+      select:
+      {
+        ...returnProductObject,
+        favoritesBy: { select: { id: true } }
+      }, orderBy: { createdAt: 'desc' }
+    });
   }
 
   async search(searchTerm: string) {

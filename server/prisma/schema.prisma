@@ -17,7 +17,7 @@ model User {
   avatarPath String @default("") @map("avatar_path")
   phone      String @default("")
 
-  favorites Product[]
+  favorites Product[] @relation("user favorites")
   orders    Order[]
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -37,8 +37,8 @@ model Product {
 
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
-  User       User?     @relation(fields: [userId], references: [id])
-  userId     String?
+
+  favoritesBy User[] @relation("user favorites")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
