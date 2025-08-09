@@ -1,4 +1,5 @@
-import { Stack } from 'expo-router';
+import PrivateNavigation from '@/navigation/PrivateNavigation';
+import AuthProvider from '@/providers/auth/AuthProvider';
 import { StatusBar } from 'expo-status-bar';
 import {
   SafeAreaProvider
@@ -7,10 +8,12 @@ import {
 export default function RootLayout() {
   return (
     <>
-      <SafeAreaProvider>
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'fff' } }} />
-      </SafeAreaProvider>
-      <StatusBar style="dark" />
+      <AuthProvider>
+        <SafeAreaProvider>
+          <PrivateNavigation />
+        </SafeAreaProvider>
+        <StatusBar style="dark" />
+      </AuthProvider >
     </>
   );
 }
