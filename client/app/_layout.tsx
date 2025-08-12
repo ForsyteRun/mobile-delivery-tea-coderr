@@ -1,3 +1,4 @@
+import Toast from '@/components/Toast';
 import MenuBottom from '@/components/layout/bottom-menu/MenuBottom';
 import PrivateNavigation from '@/navigation/PrivateNavigation';
 import AuthProvider from '@/providers/auth/AuthProvider';
@@ -15,6 +16,7 @@ export default function RootLayout() {
           <MenuBottom />
         </SafeAreaProvider>
         <StatusBar style="dark" />
+        <Toast />
       </AuthProvider >
     </>
   );
