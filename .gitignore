@@ -10,3 +10,7 @@ public
 .next
 yarn-error.log
 npm-debug.log
+.expo
+expo
+android
+build
