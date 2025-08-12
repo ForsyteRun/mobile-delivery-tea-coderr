@@ -1,8 +1,11 @@
 export interface IRouteLinkData {
-  Home: undefined;
-  Auth: undefined;
+  index: '/';
+  Home: '/Home';
+  Favorites: '/Favorites';
+  Search: '/Search';
+  Cart: '/Cart';
+  Auth: '/Auth';
 }
 
-export interface IRoute {
-  route: keyof IRouteLinkData;
-}
+export type IRouteHref = IRouteLinkData[keyof IRouteLinkData];
+export type IRoute = { route: keyof IRouteLinkData }

@@ -7,7 +7,7 @@ SplashScreen.preventAutoHideAsync();
 export const AuthContext = createContext({} as IContext)
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<TUserStateData>(null)
+  const [user, setUser] = useState<TUserStateData>({} as TUserStateData);
 
   useEffect(() => {
     SplashScreen.hideAsync();

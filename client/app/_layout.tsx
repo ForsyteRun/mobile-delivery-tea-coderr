@@ -1,3 +1,4 @@
+import MenuBottom from '@/components/layout/bottom-menu/MenuBottom';
 import PrivateNavigation from '@/navigation/PrivateNavigation';
 import AuthProvider from '@/providers/auth/AuthProvider';
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +12,7 @@ export default function RootLayout() {
       <AuthProvider>
         <SafeAreaProvider>
           <PrivateNavigation />
+          <MenuBottom />
         </SafeAreaProvider>
         <StatusBar style="dark" />
       </AuthProvider >

@@ -1,9 +1,9 @@
-import { useAuth } from "@/hooks/useAuth"
-import { Stack } from "expo-router"
-import { routes } from "./routes"
+import { useAuth } from "@/hooks/useAuth";
+import { Stack } from "expo-router";
+import { routes } from "./routes";
 
 const PrivateNavigation = () => {
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   return (
     <Stack
@@ -25,3 +25,19 @@ const PrivateNavigation = () => {
 }
 
 export default PrivateNavigation
+/* {
+  user ? (
+    routes.map((route) => (
+      <Stack.Screen key={route.route} name={route.route} />
+    ))
+  ) : (
+    <Stack.Screen name="Auth" />
+      {/* {
+        user ? (
+          routes.map((route) => (
+            <Stack.Screen key={route.route} name={route.route} />
+          ))
+        ) : (
+          <Stack.Screen name="Auth" />
+        )
+      } */
